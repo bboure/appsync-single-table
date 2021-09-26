@@ -35,6 +35,13 @@ custom:
         field: getUser
         request: Query.getUser.request.vtl
         response: Query.getUser.response.vtl
+
+      - kind: UNIT
+        dataSource: data
+        type: Query
+        field: getUsers
+        request: Query.getUsers.request.vtl
+        response: Query.getUsers.response.vtl
   
 resources:
   Resources:

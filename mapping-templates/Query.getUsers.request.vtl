@@ -1,0 +1,14 @@
+{
+    "version": "2018-05-29",
+    "operation" : "Query",
+    "index": "GSI1",
+    "query" : {
+      "expression": "#PK = :PK",
+      "expressionNames": {
+        "#PK": "entity"
+      },
+      "expressionValues": {
+        ":PK": $util.dynamodb.toDynamoDBJson("User")
+      }
+    }
+}
