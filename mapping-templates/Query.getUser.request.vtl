@@ -1,0 +1,14 @@
+{
+    "version": "2018-05-29",
+    "operation" : "Query",
+    "scanIndexForward": false,
+    "query" : {
+      "expression": "#PK = :PK",
+      "expressionNames": {
+        "#PK": "PK"
+      },
+      "expressionValues": {
+        ":PK": $util.dynamodb.toDynamoDBJson("USER#${context.args.id}")
+      }
+    }
+}

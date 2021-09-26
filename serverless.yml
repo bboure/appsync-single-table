@@ -1,0 +1,66 @@
+app: webinar-appsync
+service: api
+
+plugins:
+  - serverless-appsync-plugin
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  timeout: 5
+  region: us-east-1
+  memorySize: 512
+  stage: ${opt:stage, 'dev'}
+
+custom:
+  appSync:
+    name: appsync-webinar-demo
+    authenticationType: API_KEY
+
+    logConfig:
+      level: ALL
+
+    xrayEnabled: true
+
+    dataSources:
+      - type: AMAZON_DYNAMODB
+        name: data
+        config:
+          tableName: !Ref DataTable
+
+    mappingTemplates:
+      - kind: UNIT
+        dataSource: data
+        type: Query
+        field: getUser
+        request: Query.getUser.request.vtl
+        response: Query.getUser.response.vtl
+  
+resources:
+  Resources:
+    DataTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: data
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: PK
+            AttributeType: S
+          - AttributeName: SK
+            AttributeType: S
+          - AttributeName: entity
+            AttributeType: S
+        KeySchema:
+          - AttributeName: PK
+            KeyType: HASH
+          - AttributeName: SK
+            KeyType: RANGE
+        GlobalSecondaryIndexes:
+          - IndexName: GSI1
+            KeySchema:
+              - AttributeName: entity
+                KeyType: HASH
+              - AttributeName: PK
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL

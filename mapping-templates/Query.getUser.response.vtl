@@ -1,0 +1,16 @@
+#if($context.result.items.size() == 0)
+  $utils.error("NotFound", "NotFound");
+#else
+  #set ($user = {})
+  #foreach($item in $context.result.items)
+    #if($item.entity == "User")
+      #set ($user = $item.clone())
+      $util.qr($user.put("orders", []))
+    #else
+      #if($item.entity == "Order")
+        $util.qr($user.orders.add($item))
+      #end
+    #end
+  #end
+  $utils.toJson($user)
+#end

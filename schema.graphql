@@ -1,0 +1,16 @@
+type Order {
+	id: ID!
+	total: Int!
+}
+
+type Query {
+	getUser(id: ID!): User
+	getUsers: [User]
+}
+
+type User {
+	id: ID!
+	name: String!
+	email: String!
+	orders: [Order]
+}
