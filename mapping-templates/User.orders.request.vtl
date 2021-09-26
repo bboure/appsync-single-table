@@ -1,0 +1,16 @@
+{
+    "version": "2018-05-29",
+    "operation" : "Query",
+    "scanIndexForward": false,
+    "query" : {
+      "expression": "#PK = :PK and begins_with(#SK, :SK)",
+      "expressionNames": {
+        "#PK": "PK",
+        "#SK": "SK"
+      },
+      "expressionValues": {
+        ":PK": $util.dynamodb.toDynamoDBJson("USER#${ctx.source.id}"),
+        ":SK": $util.dynamodb.toDynamoDBJson("ORDER#"),
+      }
+    }
+}

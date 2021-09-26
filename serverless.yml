@@ -42,6 +42,13 @@ custom:
         field: getUsers
         request: Query.getUsers.request.vtl
         response: Query.getUsers.response.vtl
+
+      - kind: UNIT
+        dataSource: data
+        type: User
+        field: orders
+        request: User.orders.request.vtl
+        response: User.orders.response.vtl
   
 resources:
   Resources:
