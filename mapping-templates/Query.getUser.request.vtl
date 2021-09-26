@@ -1,14 +1,18 @@
+#set($expression="#PK = :PK")
+#set($expressionNames={"#PK": "PK"})
+#set($expressionValues={":PK": $util.dynamodb.toDynamoDB("USER#$context.args.id")})
+#if(!$ctx.info.selectionSetList.contains("orders"))
+  #set($expression=$expression + " and #SK = :SK")
+  $util.qr($expressionNames.put("#SK", "SK"))
+  $util.qr($expressionValues.put(":SK", $util.dynamodb.toDynamoDB("USER#${context.args.id}")))
+#end
 {
     "version": "2018-05-29",
     "operation" : "Query",
     "scanIndexForward": false,
     "query" : {
-      "expression": "#PK = :PK",
-      "expressionNames": {
-        "#PK": "PK"
-      },
-      "expressionValues": {
-        ":PK": $util.dynamodb.toDynamoDBJson("USER#${context.args.id}")
-      }
+      "expression": "$expression",
+      "expressionNames": $util.toJson($expressionNames),
+      "expressionValues": $util.toJson($expressionValues)
     }
 }
